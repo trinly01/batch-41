@@ -1,16 +1,32 @@
 <template>
   <div>
-    <h4>Hello Batch 41</h4>
-    <h4 class="blue-color backg-black">Hello Batch 42 {{ todo }}</h4>
-    <input v-model="todo" type="text" placeholder="What needs to be done?" @keyup.enter="add">
-    <button @click="add" >add</button>
-    <button @click="clearTodo">clear text</button>
-    <ul>
-      <li v-for="(task, i) in todos" :key="task._id">
-        {{i}} {{ task.desc }}
-        <button @click="remove(i)">x</button>
-      </li>
-    </ul>
+    <q-toolbar class="bg-primary text-white">
+      <q-btn flat round dense icon="menu" class="q-mr-sm" />
+      <q-avatar>
+        <img src="https://cdn.quasar.dev/logo-v2/svg/logo-mono-white.svg">
+      </q-avatar>
+
+      <q-toolbar-title>Batch 41 Todo App</q-toolbar-title>
+
+      <q-btn flat round dense icon="whatshot" />
+    </q-toolbar>
+    <div class="row q-pa-md q-gutter-sm">
+      <q-input class="col" v-model="todo" @keyup.enter="add" clearable />
+      <!-- <q-btn icon="save" label="add" /> -->
+    </div>
+    <q-list bordered separator>
+      <q-item clickable v-ripple v-for="(task, i) in todos" :key="task._id">
+        <q-item-section avatar>
+          <q-checkbox v-model="task.isDone" />
+        </q-item-section>
+        <q-item-section>
+          {{i}} {{ task.desc }}
+        </q-item-section>
+        <q-item-section side>
+          <q-btn flat dense round icon="delete" @click="remove(i)" color="red" />
+        </q-item-section>
+      </q-item>
+    </q-list>
   </div>
 </template>
 
