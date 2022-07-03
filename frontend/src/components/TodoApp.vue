@@ -1,14 +1,15 @@
 <template>
   <div>
     <h4>Hello Batch 41</h4>
-    <h4 class="blue-color backg-black">Hello Batch 42</h4>
-    <input type="text" placeholder="What needs to be done?">
+    <h4 class="blue-color backg-black">Hello Batch 42 {{ todo }}</h4>
+    <input v-model="todo" type="text" placeholder="What needs to be done?" @keyup.enter="add">
+    <button @click="add" >add</button>
+    <button @click="clearTodo">clear text</button>
     <ul>
-      <li>asdasdasdasd</li>
-      <li>qwe</li>
-      <li>zxc</li>
-      <li>ghj</li>
-      <li>asdasdasdasd</li>
+      <li v-for="(task, i) in todos" :key="task._id">
+        {{i}} {{ task.desc }}
+        <button @click="remove(i)">x</button>
+      </li>
     </ul>
   </div>
 </template>
@@ -26,34 +27,32 @@ h4 {
 </style>
 
 <script setup>
-const pi = 3.14
-let noun = 'pogi'
-noun = 'gwapo'
+import { ref } from 'vue'
 
-const favoriteFood = ['Pizza', 'Burger', 'Cake', 'Fries', 'Salad']
-
-const human = {
-  name: 'Jovan',
-  age: 18,
-  favoriteFood
-}
-
-function foodsWithLetterA (foods) {
-  const foodlist = []
-  for (const food of foods) {
-    if (food.includes('a')) {
-      foodlist.push(food)
-    }
+const todo = ref('test')
+const todos = ref([
+  {
+    _id: Date.now(),
+    desc: 'create add function',
+    isDone: false
   }
-  return foodlist
+])
+
+function clearTodo () {
+  todo.value = ''
 }
 
-console.log('pi:', pi)
-console.log('name:', noun + ' ni Trinmar')
-console.log('your favorite foods are:', favoriteFood)
-console.log('Human ba to?', human)
+function add () {
+  todos.value.unshift({
+    _id: Date.now(),
+    desc: todo.value,
+    isDone: false
+  })
+  clearTodo()
+}
 
-const newFavorite = foodsWithLetterA(favoriteFood)
-console.log('new Favorite foods', newFavorite)
-console.log('index 4', favoriteFood[4])
+function remove (i) {
+  todos.value.splice(i, 1)
+}
+
 </script>
