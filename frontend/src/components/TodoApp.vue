@@ -28,7 +28,7 @@
       </q-item>
     </q-list>
     <div>
-      {{ todos.filter(todo => !todo.isDone).length }} item/s left
+      {{ itemsLeft }} item/s left
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ h4 {
 </style>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const todo = ref('test')
 const todos = ref([
@@ -56,6 +56,8 @@ const todos = ref([
     isDone: false
   }
 ])
+
+const itemsLeft = computed(() => todos.value.filter(t => !t.isDone).length)
 
 function clearTodo () {
   todo.value = ''
