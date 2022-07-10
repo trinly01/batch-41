@@ -8,9 +8,9 @@
 
       <q-toolbar-title>Batch 41 Todo App</q-toolbar-title>
 
-      <q-btn flat round dense icon="whatshot" />
+      <q-btn flat round dense icon="picture_as_pdf" @click="openPDF" />
     </q-toolbar>
-    <z-human name="Hade Villarosa" @ate="logFood"></z-human>
+    <pie-chart :donut="true" :data="[['Active', activeTodos.length], ['Completed', completedTasks.length]]"></pie-chart>
     <div class="row q-pa-md q-gutter-sm">
       <q-input class="col" v-model="todo" @keyup.enter="add" clearable />
       <!-- <q-btn icon="save" label="add" /> -->
@@ -40,6 +40,7 @@
     <div>
       {{ itemsLeft }} item/s left <q-btn label="clear completed" @click="clearCompleted" />
     </div>
+    <z-human name="Hade Villarosa" @ate="logFood"></z-human>
   </div>
 </template>
 
@@ -56,9 +57,11 @@ h4 {
 </style>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, getCurrentInstance } from 'vue'
 
 import ZHuman from 'components/ZHuman.vue'
+
+const { $pdfMake } = getCurrentInstance().appContext.config.globalProperties
 
 const tab = ref('')
 
@@ -86,6 +89,29 @@ const todosByStatus = computed(() => {
 })
 
 const itemsLeft = computed(() => activeTodos.value.length)
+
+function openPDF () {
+// asd
+  // this.d
+
+  const tasks = todos.value.map(t => [t.desc, t.isDone ? 'Done' : 'PENDING'])
+
+  const dd = {
+    content: [
+      {
+        table: {
+          body: [
+            ['todo', 'status'],
+            ...tasks
+          ]
+        }
+      }
+    ]
+  }
+
+  // dd.content[0].table.body = [['todo', 'status'], ...tasks]
+  $pdfMake.createPdf(dd).open()
+}
 
 function logFood (food, name) {
   console.log(`Kinain ni ${name} ang kanyang ${food}`)

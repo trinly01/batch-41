@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ name }}</h1>
+  <div>{{ name }}</div>
   <q-btn label="eat most favorite" @click="eat('Ice Cream')"/>
   <q-btn label="eat least favorite" @click="eat('Sisig')" />
   <br />
