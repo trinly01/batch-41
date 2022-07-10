@@ -11,6 +11,8 @@
 <script setup>
 import { reactive } from 'vue'
 
+const emit = defineEmits(['ate'])
+
 const props = defineProps({
   name: {
     type: String,
@@ -44,6 +46,8 @@ function eat (food) {
       data.waist += 0
       data.hips += 1
   }
+
+  emit('ate', food, props.name)
 }
 
 </script>

@@ -10,7 +10,7 @@
 
       <q-btn flat round dense icon="whatshot" />
     </q-toolbar>
-    <z-human name="Hade Villarosa"></z-human>
+    <z-human name="Hade Villarosa" @ate="logFood"></z-human>
     <div class="row q-pa-md q-gutter-sm">
       <q-input class="col" v-model="todo" @keyup.enter="add" clearable />
       <!-- <q-btn icon="save" label="add" /> -->
@@ -86,6 +86,10 @@ const todosByStatus = computed(() => {
 })
 
 const itemsLeft = computed(() => activeTodos.value.length)
+
+function logFood (food, name) {
+  console.log(`Kinain ni ${name} ang kanyang ${food}`)
+}
 
 function clearCompleted () {
   console.log(todos)
