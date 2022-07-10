@@ -37,7 +37,7 @@
       </q-item>
     </q-list>
     <div>
-      {{ itemsLeft }} item/s left
+      {{ itemsLeft }} item/s left <q-btn label="clear completed" @click="clearCompleted" />
     </div>
   </div>
 </template>
@@ -83,6 +83,10 @@ const todosByStatus = computed(() => {
 })
 
 const itemsLeft = computed(() => activeTodos.value.length)
+
+function clearCompleted () {
+  todos.value = activeTodos.value
+}
 
 function clearTodo () {
   todo.value = ''
