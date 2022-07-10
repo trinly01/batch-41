@@ -27,6 +27,9 @@
         </q-item-section>
       </q-item>
     </q-list>
+    <div>
+      {{ todos.filter(todo => !todo.isDone).length }} item/s left
+    </div>
   </div>
 </template>
 
