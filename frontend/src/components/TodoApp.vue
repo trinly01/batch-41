@@ -19,7 +19,7 @@
         <q-item-section avatar>
           <q-checkbox v-model="task.isDone" />
         </q-item-section>
-        <q-item-section>
+        <q-item-section style="text-decoration: line-through; color: gray;">
           {{i}} {{ task.desc }}
         </q-item-section>
         <q-item-section side>
