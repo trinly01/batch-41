@@ -14,8 +14,17 @@
       <q-input class="col" v-model="todo" @keyup.enter="add" clearable />
       <!-- <q-btn icon="save" label="add" /> -->
     </div>
+    <q-tabs
+      v-model="tab"
+      inline-label
+      class="bg-purple text-white shadow-2"
+    >
+      <q-tab name="" label="all" />
+      <q-tab name="active" label="active" />
+      <q-tab name="completed" label="completed" />
+    </q-tabs>
     <q-list bordered separator>
-      <q-item clickable v-ripple v-for="(task, i) in todos" :key="task._id">
+      <q-item clickable v-ripple v-for="(task, i) in todosByStatus" :key="task._id">
         <q-item-section avatar>
           <q-checkbox v-model="task.isDone" />
         </q-item-section>
@@ -48,6 +57,8 @@ h4 {
 <script setup>
 import { ref, computed } from 'vue'
 
+const tab = ref('')
+
 const todo = ref('test')
 const todos = ref([
   {
@@ -57,7 +68,21 @@ const todos = ref([
   }
 ])
 
-const itemsLeft = computed(() => todos.value.filter(t => !t.isDone).length)
+const activeTodos = computed(() => todos.value.filter(t => !t.isDone))
+const completedTasks = computed(() => todos.value.filter(t => t.isDone))
+
+const todosByStatus = computed(() => {
+  switch (tab.value) {
+    case 'active':
+      return activeTodos.value
+    case 'completed':
+      return completedTasks.value
+    default:
+      return todos.value
+  }
+})
+
+const itemsLeft = computed(() => activeTodos.value.length)
 
 function clearTodo () {
   todo.value = ''
