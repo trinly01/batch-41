@@ -10,6 +10,7 @@
 
       <q-btn flat round dense icon="whatshot" />
     </q-toolbar>
+    <z-human name="Hade Villarosa"></z-human>
     <div class="row q-pa-md q-gutter-sm">
       <q-input class="col" v-model="todo" @keyup.enter="add" clearable />
       <!-- <q-btn icon="save" label="add" /> -->
@@ -57,6 +58,8 @@ h4 {
 <script setup>
 import { ref, computed } from 'vue'
 
+import ZHuman from 'components/ZHuman.vue'
+
 const tab = ref('')
 
 const todo = ref('test')
@@ -85,6 +88,8 @@ const todosByStatus = computed(() => {
 const itemsLeft = computed(() => activeTodos.value.length)
 
 function clearCompleted () {
+  console.log(todos)
+  // todos = activeTodos.value
   todos.value = activeTodos.value
 }
 
