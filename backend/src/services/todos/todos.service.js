@@ -17,7 +17,13 @@ module.exports = function (app) {
 
   service.hooks(hooks);
 
-  service.publish('created', () => {
+  service.publish('created' , () => {
+    return [
+      app.channel('anonymous')
+    ];
+  });
+
+  service.publish(() => {
     return [
       app.channel('anonymous')
     ];

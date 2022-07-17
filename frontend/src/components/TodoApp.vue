@@ -27,13 +27,13 @@
     <q-list bordered separator>
       <q-item clickable v-ripple v-for="(task, i) in todosByStatus" :key="task._id">
         <q-item-section avatar>
-          <q-checkbox v-model="task.isDone" />
+          <q-checkbox :modelValue="task.isDone" @click="todosSrvc.patch(task._id, { isDone: !task.isDone })" />
         </q-item-section>
         <q-item-section :class="{ 'done text-grey': task.isDone }">
           {{i}} {{ task.desc }}
         </q-item-section>
         <q-item-section side>
-          <q-btn flat dense round icon="delete" @click="remove(i)" color="red" />
+          <q-btn flat dense round icon="delete" @click="remove(task._id)" color="red" />
         </q-item-section>
       </q-item>
     </q-list>
@@ -148,8 +148,9 @@ async function add () {
   clearTodo()
 }
 
-function remove (i) {
-  todos.value.splice(i, 1)
+async function remove (i) {
+  // todos.value.splice(i, 1)
+  await todosSrvc.remove(i)
 }
 
 </script>
