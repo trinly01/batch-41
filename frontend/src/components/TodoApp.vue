@@ -66,7 +66,7 @@ const { $pdfMake, $wings } = getCurrentInstance().appContext.config.globalProper
 const todosSrvc = $wings.wingsService('todos')
 
 todosSrvc.on('dataChange', tasks => {
-  todos.value = tasks
+  todos.value = [...tasks]
 })
 
 todosSrvc.init()
@@ -135,9 +135,13 @@ function clearTodo () {
   todo.value = ''
 }
 
-function add () {
-  todos.value.unshift({
-    _id: Date.now(),
+async function add () {
+  // todos.value.unshift({
+  //   _id: Date.now(),
+  //   desc: todo.value,
+  //   isDone: false
+  // })
+  await todosSrvc.create({
     desc: todo.value,
     isDone: false
   })

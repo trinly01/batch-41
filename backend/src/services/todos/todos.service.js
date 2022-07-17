@@ -16,4 +16,10 @@ module.exports = function (app) {
   const service = app.service('todos');
 
   service.hooks(hooks);
+
+  service.publish('created', () => {
+    return [
+      app.channel('anonymous')
+    ];
+  });
 };
