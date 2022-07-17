@@ -1,5 +1,8 @@
 import { boot } from 'quasar/wrappers'
 
+import wings from 'wings4'
+// const wings = require('wings4').default
+
 import VueChartkick from 'vue-chartkick'
 import 'chartkick/chart.js'
 
@@ -14,4 +17,6 @@ export default boot(async ({ app, router }) => {
   // something to do
   app.use(VueChartkick)
   app.config.globalProperties.$pdfMake = pdfMake
+
+  app.config.globalProperties.$wings = wings('http://localhost:3030')
 })
