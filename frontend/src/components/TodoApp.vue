@@ -61,7 +61,15 @@ import { ref, computed, getCurrentInstance } from 'vue'
 
 import ZHuman from 'components/ZHuman.vue'
 
-const { $pdfMake } = getCurrentInstance().appContext.config.globalProperties
+const { $pdfMake, $wings } = getCurrentInstance().appContext.config.globalProperties
+
+const todosSrvc = $wings.wingsService('todos')
+
+todosSrvc.on('dataChange', tasks => {
+  todos.value = tasks
+})
+
+todosSrvc.init()
 
 const tab = ref('')
 
