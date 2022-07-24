@@ -9,6 +9,7 @@ import 'chartkick/chart.js'
 import pdfMake from 'pdfmake/build/pdfmake'
 // import pdfFonts from 'pdfmake/build/vfs_fonts'
 import * as pdfFonts from 'pdfmake/build/vfs_fonts'
+import { reactive } from 'vue'
 pdfMake.vfs = pdfFonts.pdfMake.vfs
 
 // "async" is optional;
@@ -19,4 +20,8 @@ export default boot(async ({ app, router }) => {
   app.config.globalProperties.$pdfMake = pdfMake
 
   app.config.globalProperties.$wings = wings('http://localhost:3030')
+
+  app.config.globalProperties.$global = reactive({
+    user: null
+  })
 })

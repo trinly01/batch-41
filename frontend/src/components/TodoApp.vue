@@ -9,6 +9,8 @@
       <q-toolbar-title>Batch 41 Todo App</q-toolbar-title>
 
       <q-btn flat round dense icon="picture_as_pdf" @click="openPDF" />
+      <q-btn v-if="$global.user" @click="$wings.logout()" :label="$global.user.displayName" dense icon="logout" color="negative"  />
+      <q-btn v-else @click="login" dense icon="login" color="secondary" />
     </q-toolbar>
     <pie-chart :donut="true" :data="[['Active', activeTodos.length], ['Completed', completedTasks.length]]"></pie-chart>
     <div class="row q-pa-md q-gutter-sm">
@@ -61,9 +63,39 @@ import { ref, computed, getCurrentInstance } from 'vue'
 
 import ZHuman from 'components/ZHuman.vue'
 
-const { $pdfMake, $wings } = getCurrentInstance().appContext.config.globalProperties
+const { $pdfMake, $wings, $global } = getCurrentInstance().appContext.config.globalProperties
 
-const todosSrvc = $wings.wingsService('todos')
+const todosSrvc = $wings.wingsService('tasks')
+
+$wings.on('login', ({ user }) => {
+  console.log('user', user)
+  $global.user = user
+  todosSrvc.reset()
+  todosSrvc.init()
+})
+
+$wings.on('logout', () => {
+  $global.user = null
+  todos.value = []
+})
+
+const auth = async () => {
+  try {
+    await $wings.authenticate()
+  } catch (error) {
+    todos.value = []
+  }
+}
+
+auth()
+
+function login () {
+  $wings.authenticate({
+    email: 'pogi@pogi.com',
+    password: 'pogi',
+    strategy: 'local'
+  })
+}
 
 todosSrvc.on('dataChange', tasks => {
   todos.value = [...tasks]
@@ -77,7 +109,7 @@ const todo = ref('test')
 const todos = ref([
   {
     _id: Date.now(),
-    desc: 'create add function',
+    desc: 'You are offline',
     isDone: false
   }
 ])
